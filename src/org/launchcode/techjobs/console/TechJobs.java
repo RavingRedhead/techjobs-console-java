@@ -3,6 +3,7 @@ package org.launchcode.techjobs.console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -62,8 +63,8 @@ public class TechJobs {
 
                 System.out.println("\n");
 
-                if (searchField.equals("all") && searchTerm.equals("")) {
-                    printJobs(JobData.findAll());
+                if (searchField.equals("all")) {
+                    printJobs(JobData.findByValue(searchTerm));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -74,8 +75,8 @@ public class TechJobs {
     // ﻿Returns the key of the selected item from the choices Dictionary
     private static String getUserSelection(String menuHeader, HashMap<String, String> choices) {
 
-        int choiceIdx;
-        boolean validChoice = false;
+        Integer choiceIdx;
+        Boolean validChoice = false;
         String[] choiceKeys = new String[choices.size()];
 
         // Put the choices in an ordered structure so we can
@@ -116,9 +117,12 @@ public class TechJobs {
         if (someJobs.size() == 0) {
             System.out.println("No Jobs Found");
         } else {
-            for (HashMap<String, String> job : someJobs) {
-                for (String key : job.keySet()) {
-                    System.out.println(key + ": " + job.get(key));
+            for (int i = 0; i < someJobs.size(); i++) {
+                for (Map.Entry<String, String> entry : someJobs.get(i).entrySet()) {
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+
+                    System.out.println(key + ": " + value);
                 }
                 System.out.println("*****");
             }
